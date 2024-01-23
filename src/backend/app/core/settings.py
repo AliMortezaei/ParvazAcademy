@@ -33,6 +33,15 @@ if ENV_ALLOWED_HOST:
 
 
 # Application definition
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "django_filters",
+    "djangorestframework-simplejwt",
+]
+
+APP_MODULES = [
+    "accounts.users",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + APP_MODULES + THIRD_PARTY_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -157,3 +167,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = "users.User"

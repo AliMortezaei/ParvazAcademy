@@ -9,6 +9,9 @@ authors = ["AlirezMortezaei <Mortezaei2324@gmail.com>"]
 python = "^3.10"
 django = "^5.0.1"
 django-dotenv = "^1.4.2"
+djangorestframework-simplejwt = "^5.3.1"
+djangorestframework = "^3.14.0"
+django-filter = "^23.5"
 
 
 [build-system]
