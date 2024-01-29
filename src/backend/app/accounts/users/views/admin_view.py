@@ -18,25 +18,14 @@ class AdminUserViewSet(ModelViewSet):
             return AdminUserCreateSeialiser
         else:
             return AdminUserSeialiser
-
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        match request.data['user_type']:
-            case 'teacher':
-                user_type = UserType.objects.get(user_type="teacher")
-                request.data['user_type'] = user_type
-            case 'student':
-                user_type = UserType.objects.get(user_type="student")
-                request.data['user_type'] = user_type
-        return self.update(request, *args, **kwargs)
-        
     
     def perform_create(self, serializer):
+        data = serializer.create_validate(serializer.data)
         self.get_queryset().model.objects.create_user(
-                password=serializer.data['password'],
-                email=serializer.data['email'],
-                phone_number=serializer.data['phone_number'],
-                full_name=serializer.data['full_name']
+                password=data['password'],
+                email=data['email'],
+                phone_number=data['phone_number'],
+                full_name=data['full_name'],
+                user_type=data['user_type']
         )
         
