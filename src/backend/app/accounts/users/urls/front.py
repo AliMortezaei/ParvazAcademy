@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
-    TokenObtainSlidingView
+    TokenObtainSlidingView,
+    TokenBlacklistView
 )
 
 from ..views.front_view import \
@@ -23,6 +24,7 @@ router.register(r'login', UserLoginEmailApiView, basename='email_login')
 
 urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_obtain_pair'),
+    path('logout/', TokenBlacklistView.as_view(), name='logout'),
 
 ] + router.urls 
 
