@@ -1,8 +1,5 @@
-#from rest_framework.permissions import IsAuthenticated
-
 from rest_framework.exceptions import NotAcceptable
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 
 
 from ..serializers.front_serializer import (
@@ -30,12 +27,15 @@ class UserVerifyApiView(VerifyUserMixin, GenericViewSet):
     serializer_class = UserVerifySerializer
 
 
-    
-class UserLoginOtpApiView(LoginOtpUserMixin, GenericViewSet):
 
-    serializer_class = UserLoginOtpSerializer
+class UserLoginApiView(LoginOtpUserMixin, LoginEmailUserMixin, GenericViewSet):
 
-
-class UserLoginEmailApiView(LoginEmailUserMixin, GenericViewSet):
-
-    serializer_class = UserLoginEmailSerializer
+    def get_serializer_class(self):
+        match self.action:
+            case 'login_otp':
+                return UserLoginOtpSerializer
+            case 'login_email':
+                return UserLoginEmailSerializer
+            case _:
+                return super().get_serializer_class()
+             

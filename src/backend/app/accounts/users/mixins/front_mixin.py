@@ -59,8 +59,8 @@ class VerifyUserMixin(UserAuthBaseMixin):
 
 class LoginOtpUserMixin(UserAuthBaseMixin):
 
-    @action(methods=['post'], detail=False)
-    def login(self, request,*args, **kwargs):
+    @action(methods=['post'], detail=False, url_path='otp')
+    def login_otp(self, request,*args, **kwargs):
         serializer = self.valiedate_serializer(request)
         self.perform_save(serializer)
         return Response(
@@ -83,8 +83,8 @@ class LoginOtpUserMixin(UserAuthBaseMixin):
 
 class LoginEmailUserMixin(UserAuthBaseMixin):
     
-    @action(methods=['post'], detail=False)
-    def email(self, request,*args, **kwargs):
+    @action(methods=['post'], detail=False, url_path='email')
+    def login_email(self, request,*args, **kwargs):
         serializer = self.valiedate_serializer(request)
         user = authenticate(
             email=serializer.data['email'],

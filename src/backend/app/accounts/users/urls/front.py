@@ -11,16 +11,14 @@ from ..views.front_view import \
 (
     UserRegisterApiView,
     UserVerifyApiView,
-    UserLoginOtpApiView,
-    UserLoginEmailApiView
+    UserLoginApiView,
 )
 
 router = DefaultRouter()
 
 router.register(r'', UserRegisterApiView, basename='register')
 router.register(r'', UserVerifyApiView, basename='verify')
-router.register(r'', UserLoginOtpApiView, basename='login')
-router.register(r'login', UserLoginEmailApiView, basename='email_login')
+router.register(r'login', UserLoginApiView, basename='login')
 
 urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_obtain_pair'),
