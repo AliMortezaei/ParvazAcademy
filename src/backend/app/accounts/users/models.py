@@ -1,18 +1,15 @@
-from typing import NewType
-
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
-from .managers import MyUserManager
+from .managers import UserManager
 
 
     
 
 class UserType(models.Model):
-    auto_created = False
     class UserTypeChoice(models.TextChoices):
         admin = "admin"
         student = "student"
@@ -24,15 +21,27 @@ class UserType(models.Model):
         help_text=_("Selection User Type"),
         primary_key=True
     ) 
-        
+    introduction = models.TextField(_("description user type"), null=True, blank=True)
+
+    def __str__ (self):
+        return self.user_type
+
+    class Meta:
+        verbose_name = _("user_type")
+        verbose_name_plural = _("users_type")
+
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    objects = MyUserManager()
+    objects = UserManager()
     
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE, db_column="type")
+    user_type = models.ForeignKey(
+        UserType, on_delete=models.CASCADE,
+        db_column="type", default="student",
+        related_name='user'
+    )
 
-    full_name = models.CharField(_("full name"), max_length=150, blank=True)
+    full_name = models.CharField(_("full name"), max_length=150, blank=True, null=True)
     email = models.EmailField(_("email address"), unique=True)
     phone_number = models.CharField(
         _("phone number"),
@@ -67,7 +76,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__ (self):
-        return self.username
+        return self.email
+
     
     class Meta:
         verbose_name = _("user")
@@ -75,11 +85,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 
-    
-    def get_fullname(self) -> str:
-        """
-        Return the firtname and lastname 
-        """ 
-        
-        return f'{self.first_name} {self.last_name}'
+ 
             
