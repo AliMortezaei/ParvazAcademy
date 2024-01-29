@@ -17,9 +17,11 @@ class StudentProfile(models.Model):
             (True, "male")
         ]
     )
-    city = models.CharField(_("city") ,max_length=65, blank=True)
-    birthday = models.DateField(_("bithday"))
-    image = models.ImageField(_("profile image"))
+    city = models.CharField(_("city") ,max_length=65, blank=True, null=True)
+    birthday = models.DateField(_("bithday"), blank=True, null=True)
+
+    # TODO: image save s3 ...
+    #image = models.ImageField(_("profile image"), blank=True, null=True)
 
 
 

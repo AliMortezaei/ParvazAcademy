@@ -37,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     user_type = models.ForeignKey(
         UserType, on_delete=models.CASCADE,
-        db_column="type", default="student",
+        db_column="type",
         related_name='user'
     )
 
@@ -60,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     is_active = models.BooleanField(
         _("active"),
-        default=False,
+        default=True,
         help_text=_(
             "Designates whether this user should be treated as active. "
             "Unselect this instead of deleting accounts."
