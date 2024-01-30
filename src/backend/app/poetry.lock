@@ -203,6 +203,20 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-jalali-date"
+version = "1.1.0"
+description = "Jalali Date support for user interface. Easy conversion of DateTimeFiled to JalaliDateTimeField within the admin site, views, forms and templates."
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "django-jalali-date-1.1.0.tar.gz", hash = "sha256:7561058ad4b5b58d959ce01db8835fb826b8dea34c1524063b4aa78e08ac16db"},
+]
+
+[package.dependencies]
+django = "*"
+jdatetime = "*"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -284,6 +298,17 @@ python-versions = ">=3.5"
 files = [
     {file = "inflection-0.5.1-py2.py3-none-any.whl", hash = "sha256:f38b2b640938a4f35ade69ac3d053042959b62a0f1076a5bbaa1b9526605a8a2"},
     {file = "inflection-0.5.1.tar.gz", hash = "sha256:1a29730d366e996aaacffb2f1f1cb9593dc38e2ddd30c91250c6dde09ea9b417"},
+]
+
+[[package]]
+name = "jdatetime"
+version = "4.1.1"
+description = "Jalali datetime binding for python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "jdatetime-4.1.1-py3-none-any.whl", hash = "sha256:8b56c702406eaf84d2ad673c41180488f8c77f156c3ac0630ce0caabaf6af5b8"},
+    {file = "jdatetime-4.1.1.tar.gz", hash = "sha256:1dd0ee210160c7bd30002803c443e6260ac602ea65b065652a1d567d3bfdca7a"},
 ]
 
 [[package]]
@@ -737,4 +762,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "58bff0d847d614b289688fb66c6e8f37af0611f8fe911be7571a0224ea79c6b9"
+content-hash = "21af38f04ae27bac7b65173bea11e5ef214d96959164d2ae83e5b56be7344690"
