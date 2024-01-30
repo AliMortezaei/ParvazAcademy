@@ -1,5 +1,6 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from jalali_date import datetime2jalali
 
 from .models import User
 from accounts.students.models import StudentProfile
@@ -17,3 +18,29 @@ def create_profile(sender, instance, created, **kwargs):
             case _:
                 raise ValueError("user type not found")
 
+
+@receiver(post_save, sender=User)
+def change_data_jalali(sender, instance, created, **kwargs):
+    if created:
+        user_date_join = instance.date_joined
+        new_date = datetime2jalali(user_date_join)
+        user = User.objects.get(email=instance.email)
+        user.date_joined = str(new_date)
+        user.save()
+                
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

@@ -16,7 +16,7 @@ class AdminUserSeialiser(serializers.ModelSerializer):
 class AdminUserCreateSeialiser(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ('groups', 'user_permissions')
+        exclude = ('groups', 'user_permissions', 'last_login')
 
     def create_validate(self, attrs):
         user_type = attrs.get('user_type')

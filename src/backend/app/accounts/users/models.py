@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             "Unselect this instead of deleting accounts."
         ),
     )
-    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
+    date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
 
     
 
@@ -78,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__ (self):
         return self.email
 
-    
+
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
