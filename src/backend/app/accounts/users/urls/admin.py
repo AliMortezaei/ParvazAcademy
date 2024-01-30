@@ -6,7 +6,7 @@ from accounts.users.views.admin_view import AdminUserViewSet
 
 router = DefaultRouter()
 
-router.register(r'user', AdminUserViewSet, basename='user')
+router.register(r'', AdminUserViewSet, basename='user')
 
 urlpatterns = router.urls
 

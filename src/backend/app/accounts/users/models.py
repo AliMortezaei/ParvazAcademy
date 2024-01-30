@@ -38,7 +38,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_type = models.ForeignKey(
         UserType, on_delete=models.CASCADE,
         db_column="type",
-        related_name='user'
+        related_name='users'
     )
 
     full_name = models.CharField(_("full name"), max_length=150, blank=True, null=True)
