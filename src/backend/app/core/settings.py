@@ -62,7 +62,7 @@ APP_MODULES = [
     "accounts.users",
     "accounts.students",
     "accounts.teachers",
-
+    "apps.courses"
 ]
 
 INSTALLED_APPS = [
