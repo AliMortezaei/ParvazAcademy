@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from accounts.users.models import User
 
@@ -30,7 +31,7 @@ class Course(models.Model):
     teacher = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='courses',
+        related_name='teacher_courses',
         limit_choices_to={'user_type__user_type': 'teacher'},
     )
     is_public = models.BooleanField(default=True)
@@ -42,17 +43,21 @@ class Course(models.Model):
         related_name='courses',
         limit_choices_to={'user_type__user_type': 'student'},
         through="CourseStudent",
-        through_fields=("student", "course"),
         blank=True,
-        null=True
     )
-    maximum_number = models.PositiveSmallIntegerField(max_length=50, default=0)
+    numbers = models.PositiveSmallIntegerField(        
+        default=0,
+        validators=[
+            MaxValueValidator(50),
+            MinValueValidator(0)
+        ]
+    )
 
     
     def __str__(self):
         return self.title
     class Meta:
-        ordering = ('-is_start', '-maximum_number')
+        ordering = ('-is_start', '-numbers')
 
 
 class Section(models.Model):
@@ -71,19 +76,52 @@ class Section(models.Model):
 
 
 class CourseStudent(models.Model):
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='student_course')
     student = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        limit_choices_to={'user_type__user_type': 'teacher'},
+        limit_choices_to={'user_type__user_type': 'student'},
+        related_name='course_student'
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date_joined = models.DateField(auto_now_add=True)
+    join_date = models.DateField(auto_now_add=True)
     
+    class Meta:
+        db_table = 'course_student'
     
 
 
+# class Quiz(models.Model):
+#     # course = models.OneToOneField(
+#     #     Course, on_delete=models.CASCADE, related_name='quez'
+#     # )
+#     questions = models.ManyToManyField('Question', through='QuizQuestion')
 
 
 
 
+# class Question(models.Model):
+#     title = models.CharField(max_length=255)
+#     quiz = models.ForeignKey(
+#         Quiz, on_delete=models.CASCADE, related_name='questions'
+#     )
+
+
+# class QuizQuestion(models.Model):
+#     quez = models.ForeignKey(
+#         Quiz, on_delete=models.CASCADE, related_name='questions_quez',
+#     )
+#     question = models.ForeignKey(
+#         Question, on_delete=models.CASCADE, related_name='quiz_question',
+#         unique=True
+#     )
+
+# class Answer(models.Model):
+#     text = models.CharField(max_length=255)
+#     question = models.ForeignKey(
+#         Question, on_delete=models.CASCADE,related_name='answers'
+#     )
+#     is_correct = models.BooleanField(default=False)
     
