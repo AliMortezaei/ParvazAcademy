@@ -33,7 +33,9 @@ doc_patterns = [
 
 admin_endpoint = [
     
-    path('admin/', include(('accounts.users.urls.admin')))
+    path('admin/', include(('accounts.users.urls.admin'))),
+    path('admin/', include(('apps.courses.urls.admin')))
+
 
 ]
 
