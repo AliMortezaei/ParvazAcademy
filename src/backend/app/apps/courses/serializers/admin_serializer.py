@@ -19,11 +19,11 @@ class AdminCategorySerializer(serializers.ModelSerializer):
 
 class AdminCourseSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='category.slug')
-
+    teacher = serializers.CharField(source='teacher.full_name')
     class Meta:
         model = Course
         #fields = '__all__'
-        exclude = ("date_end",)
+        exclude = ("date_end", "students")
 
     def create(self, validated_data):
         category_slug = validated_data.get('category')['slug']
