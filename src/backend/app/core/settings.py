@@ -157,6 +157,39 @@ if DB_IS_AVAIL:
             "sslmode": "require"
         }
 
+# congif django-storage  => ARVAN CLOUD STORAGE
+
+
+
+AWS_SERVICE_NAME = os.environ.get('AWS_SERVICE_NAME')
+
+if AWS_SERVICE_NAME == 's3':
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+    # public media settings
+    PUBLIC_MEDIA_LOCATION = 'media'
+    #MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'core.storage_backends.ImageMediaStorage'
+    AWS_LOCAL_STORAGE = f'{BASE_DIR}/aws/'
+    DEFAULT_PROFILE = "https://parvazacademy.s3.ir-thr-at1.arvanstorage.ir/media/Screenshot_from_2024-02-02_12-18-16.png"
+
+else:
+    
+    STATIC_URL = "static/"
+    STATIC_ROOT = "static/"
+
+    MEDIA_ROOT = "media/"
+    MEDIA_URL = "media/"
+
+
+
+
+
 
 
 # Password validation
@@ -204,18 +237,36 @@ AUTH_USER_MODEL = "users.User"
 # openapi 
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
+    'SCHEMA_PATH_PREFIX': r'/api/v1',
+    'DEFAULT_GENERATOR_CLASS': 'drf_spectacular.generators.SchemaGenerator',
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
+    'COMPONENT_SPLIT_PATCH': True,
+    'COMPONENT_SPLIT_REQUEST': True,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "persistAuthorization": True,
+        "displayOperationId": True,
+        "displayRequestDuration": True
+    },
+    'UPLOADED_FILES_USE_URL': True,
+    'TITLE': '',
+    'DESCRIPTION': '',
+    'VERSION': '',
+    'LICENCE': {'name': 'BSD License'},
+    'CONTACT': {'name': 'Ridwan Ray', 'email': 'ridwanray.com'},
+    #OAUTH2 SPEC
+    'OAUTH2_FLOWS': [],
+    'OAUTH2_AUTHORIZATION_URL': None,
+    'OAUTH2_TOKEN_URL': None,
+    'OAUTH2_REFRESH_URL': None,
+    'OAUTH2_SCOPES': None,
 }
 
 
 # Settings sample-jwt
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=300),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,

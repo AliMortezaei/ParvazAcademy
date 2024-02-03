@@ -42,7 +42,9 @@ admin_endpoint = [
 
 front_endpoint = [
     
-    path('user/auth/', include(('accounts.users.urls.front')))
+    path('user/auth/', include(('accounts.users.urls.front'))),
+    path('user/profile/', include(('accounts.students.urls.front')))
+
    
 ] 
 
