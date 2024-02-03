@@ -61,14 +61,14 @@ class LoginOtpUserMixin(UserAuthBaseMixin):
 
     @action(methods=['post'], detail=False, url_path='otp')
     def login_otp(self, request,*args, **kwargs):
-        serializer = self.valiedate_serializer(request)
+        serializer = self.valiedate_login(request)
         self.perform_save(serializer)
         return Response(
             data= {"phone_number": serializer['phone_number']},
             status=status.HTTP_202_ACCEPTED,
         )
                   
-    def valiedate_serializer(self, request):
+    def valiedate_login(self, request):
         serializer = super().valiedate_serializer(request)
         return serializer.login_validate(serializer.data)
 

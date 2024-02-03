@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from accounts.users.models import User
-
+from utils.media import ImageMediaStorage
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(
@@ -21,8 +21,7 @@ class StudentProfile(models.Model):
     birthday = models.DateField(_("bithday"), blank=True, null=True)
 
     # TODO: image save s3 ...
-    #image = models.ImageField(_("profile image"), blank=True, null=True)
-
+    image = models.FileField(storage=ImageMediaStorage(), blank=True, null=True)
 
 
     
