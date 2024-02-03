@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from accounts.users.models import User
+from utils.media import ImageMediaStorage
 
 
 class TeacherProfile(models.Model):
@@ -21,8 +22,5 @@ class TeacherProfile(models.Model):
     city = models.CharField(_("city") ,max_length=65, blank=True, null=True)
     birthday = models.DateField(_("bithday"), blank=True, null=True)
     
-    # TODO: image profile teacher
-    #image = models.ImageField(_("profile image"))
+    image = models.FileField(storage=ImageMediaStorage(), blank=True, null=True)
     
-    # TODO: cv_file models
-    #cv_file = models.FieldFile()

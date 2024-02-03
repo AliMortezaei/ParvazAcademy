@@ -171,9 +171,10 @@ if AWS_SERVICE_NAME == 's3':
     AWS_DEFAULT_ACL = 'public-read'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 
-    # public media settings
-    PUBLIC_MEDIA_LOCATION = 'media'
+    # profile media settings
+    PROFILE_MEDIA_LOCATION = 'media'
     #MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+    COURSE_MEDIA_LOCATION = 'course'
     DEFAULT_FILE_STORAGE = 'core.storage_backends.ImageMediaStorage'
     AWS_LOCAL_STORAGE = f'{BASE_DIR}/aws/'
     DEFAULT_PROFILE = "https://parvazacademy.s3.ir-thr-at1.arvanstorage.ir/media/Screenshot_from_2024-02-02_12-18-16.png"
