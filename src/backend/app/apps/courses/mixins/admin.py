@@ -43,7 +43,7 @@ class StudentMixin:
         user_id = request.query_params.get('student_id')
         student = get_object_or_404(User, id=user_id)
         course = get_object_or_404(Course, slug__icontains=slug)
-        self.perform_save(course, student)
+        self.perform_save_student(course, student)
         return Response(data={"detail":"accepted"}, status=status.HTTP_202_ACCEPTED)
 
 
@@ -66,14 +66,14 @@ class StudentMixin:
         user_id = request.query_params.get('student_id')
         student = get_object_or_404(User, id=user_id)
         course = get_object_or_404(Course, slug__icontains=slug)
-        self.perform_delete(course, student)
+        self.perform_delete_student(course, student)
         return Response(data={"detail":"accepted"}, status=status.HTTP_202_ACCEPTED)
 
 
-    def perform_save(self, course, student):
+    def perform_save_student(self, course, student):
         course.students.add(student)
     
-    def perform_delete(self, course, student):
+    def perform_delete_student(self, course, student):
         course.students.remove(student)
 
 
@@ -92,7 +92,7 @@ class SectionMixin:
     def add_section(self, request, slug: str = None):
         course = get_object_or_404(Course, slug__icontains=slug)
         serializer = self.valiedate_serializer(request)
-        self.perform_create(course, **serializer.data)
+        self.perform_create_section(course, **serializer.data)
         return Response(data={"detail": "created section"}, status=status.HTTP_201_CREATED)
 
     @extend_schema(
@@ -114,7 +114,7 @@ class SectionMixin:
         section_id = request.query_params.get('section_id')
         section = get_object_or_404(Section, id=section_id)
         course = get_object_or_404(Course, slug__icontains=slug)
-        self.perform_delete(course, section)
+        self.perform_delete_section(course, section)
         return Response(data={"detail":"accepted"}, status=status.HTTP_202_ACCEPTED)
 
     @extend_schema(
@@ -136,18 +136,20 @@ class SectionMixin:
         instance = get_object_or_404(Section, id=section_id)
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
+        
         return Response(data={"detail":"accepted"}, status=status.HTTP_202_ACCEPTED)
 
-    def perform_update(self, serializer, instance):
+    # TODO: update code passed
+    def perform_update_section(self, serializer, instance):
         serializer.save()
 
     
-    def perform_delete(self, course, section):
+    def perform_delete_section(self, course, section):
         if section.course == course:
             section.delete()
         else:
             raise NotFoundException()
-    def perform_create(self, course, **data):
+    def perform_create_section(self, course, **data):
         section = Section(**data)
         section.course = course
         section.save()

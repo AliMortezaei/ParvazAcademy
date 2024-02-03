@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from accounts.users.models import User
+from utils.media import CourseMediaStorage
 
 
 
@@ -52,6 +53,8 @@ class Course(models.Model):
             MinValueValidator(0)
         ]
     )
+    image = models.FileField(storage=CourseMediaStorage(), blank=True, null=True)
+
 
     
     def __str__(self):

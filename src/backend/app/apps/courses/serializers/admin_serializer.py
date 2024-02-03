@@ -25,9 +25,13 @@ class AdminCourseSerializer(serializers.ModelSerializer):
         #fields = '__all__'
         exclude = ("date_end", "students")
 
+
     def create(self, validated_data):
         category_slug = validated_data.get('category')['slug']
+        teacher_full_name = validated_data.get('teacher')['full_name']
         validated_data['category'] = get_object_or_404(Category, slug=category_slug)
+        validated_data['teacher'] = get_object_or_404(User, full_name=teacher_full_name)
+
         return super().create(validated_data)
 
 
