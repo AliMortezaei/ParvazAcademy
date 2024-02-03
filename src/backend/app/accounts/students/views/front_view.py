@@ -2,13 +2,13 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.mixins import UpdateModelMixin
-from rest_framework.generics import UpdateAPIView, GenericAPIView, RetrieveUpdateAPIView
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.generics import UpdateAPIView, GenericAPIView
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from rest_framework.exceptions import NotAcceptable
 
 
 from accounts.students.models import StudentProfile
-from accounts.students.serializers.front_serialiser import ProfileModificationSerializer, ProfileStudentSerialiser
+from accounts.students.serializers.front_serialiser import ChangePasswordSerializer, ProfileModificationSerializer, ProfileStudentSerialiser
 from accounts.students.mixins.front import RetrieveUserMixin, UpdateUserMixin
 
 class UserProfileApiView(RetrieveUserMixin, UpdateUserMixin, GenericAPIView):
@@ -32,3 +32,15 @@ class UserProfileApiView(RetrieveUserMixin, UpdateUserMixin, GenericAPIView):
                 return ProfileModificationSerializer
             case _:
                 raise NotAcceptable()
+
+
+class ProfileChangePasswordApiView(UpdateAPIView):
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+    http_method_names = ['put']
+    
+    def get_object(self):
+        return self.request.user
+    
+
