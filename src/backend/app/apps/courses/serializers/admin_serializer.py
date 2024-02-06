@@ -1,10 +1,12 @@
 
 
+from attr import field
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
 from accounts.users.serializers.admin_serializer import AdminUserSeialiser
 from accounts.users.models import User
+from accounts.students.serializers.admin_serializer import AdminProfileSerialiser
 from apps.courses.models import Category, Course, Section
 from accounts.users.serializers.front_serializer import validate_phone_number
 
@@ -39,23 +41,28 @@ class AdminCourseSerializer(serializers.ModelSerializer):
 # student serializer
 
 class AdminCourseStudentListSerialiser(serializers.ModelSerializer):
-    students = serializers.SerializerMethodField()
+    profile = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = Course
-        fields = ['title', 'students'] 
+        model = User
+        exclude = ('password', 'groups', 'user_permissions', 'is_superuser', 'is_staff')
 
-    # TODO: moust model serializer change for user students after user image set
-    def get_students(self, obj):
-        return [
-            AdminUserSeialiser(student).data
-            for student in obj.students.all()
-        ]
+    def get_profile(self, obj):
+        profile = obj.student_profile
+        return AdminProfileSerialiser(profile).data
 
 
 
-class AdminCourseSectionSerializer(serializers.ModelSerializer):
+
+class AdminCourseSectionListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Section
-        fields = ['id', 'title', 'slug', 'link', 'date_start', 'is_passed']
+        fields = ['id', 'title', 'slug', 'date_start', 'is_passed']
+
+class AdminSectionSeialiser(serializers.ModelSerializer):
+    course = serializers.CharField(source='course.title', read_only=True)
+    class Meta:
+        model = Section
+        fields = '__all__'
+

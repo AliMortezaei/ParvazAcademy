@@ -66,6 +66,7 @@ class Course(models.Model):
 class Section(models.Model):
     title = models.CharField(max_length=65, db_index=True, unique=True)
     slug = models.SlugField(unique=True, allow_unicode=True, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='sections')
     link = models.CharField(max_length=255, blank=True, null=True)
     date_start = models.DateTimeField(null=True, blank=True)

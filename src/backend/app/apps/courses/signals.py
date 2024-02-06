@@ -14,7 +14,7 @@ def generate_slug_category(sender, instance, *args, **kwargs):
     if not slug:
         text = instance.title
         text = text.strip()
-        slug = '-'.join(text.split())
+        slug = slugify(text)
     instance.slug = slug
 
 
@@ -27,7 +27,7 @@ def generate_slug_course(sender, instance, *args, **kwargs):
     if not slug:
         text = instance.title
         text = text.strip()
-        slug = '-'.join(text.split())
+        slug = slugify(text)
     instance.slug = slug
 
 
@@ -37,5 +37,5 @@ def generate_slug_section(sender, instance, *args, **kwargs):
     if not slug:
         text = instance.title
         text = text.strip()
-        slug = '-'.join(text.split())
+        slug = slugify(text)
     instance.slug = slug
