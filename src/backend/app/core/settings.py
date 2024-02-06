@@ -178,7 +178,7 @@ if AWS_SERVICE_NAME == 's3':
     DEFAULT_FILE_STORAGE = 'core.storage_backends.ImageMediaStorage'
     AWS_LOCAL_STORAGE = f'{BASE_DIR}/aws/'
     DEFAULT_PROFILE = "https://parvazacademy.s3.ir-thr-at1.arvanstorage.ir/media/Screenshot_from_2024-02-02_12-18-16.png"
-
+    DEFAULT_COURSE = "https://parvazacademy.s3.ir-thr-at1.arvanstorage.ir/course/Screenshot_from_2024-01-25_09-40-53.png"
 else:
     
     STATIC_URL = "static/"

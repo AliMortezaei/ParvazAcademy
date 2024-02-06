@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from accounts.users.models import User
+from utils.media import CourseMediaStorage
 
 
 
@@ -52,6 +53,8 @@ class Course(models.Model):
             MinValueValidator(0)
         ]
     )
+    image = models.FileField(storage=CourseMediaStorage(), blank=True, null=True)
+
 
     
     def __str__(self):
@@ -63,6 +66,7 @@ class Course(models.Model):
 class Section(models.Model):
     title = models.CharField(max_length=65, db_index=True, unique=True)
     slug = models.SlugField(unique=True, allow_unicode=True, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='sections')
     link = models.CharField(max_length=255, blank=True, null=True)
     date_start = models.DateTimeField(null=True, blank=True)
