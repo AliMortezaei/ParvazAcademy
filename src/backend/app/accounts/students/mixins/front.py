@@ -70,7 +70,10 @@ class UpdateUserMixin:
     def check(self, validate_data, data):
         if validate_data is not None and validate_data != "":
             return validate_data
-        return data
+        return 
+
+
+    
         
 
 

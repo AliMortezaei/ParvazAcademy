@@ -1,7 +1,7 @@
 
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.mixins import UpdateModelMixin
+from rest_framework.mixins import UpdateModelMixin, ListModelMixin
 from rest_framework.generics import UpdateAPIView, GenericAPIView
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from rest_framework.exceptions import NotAcceptable
@@ -10,6 +10,7 @@ from rest_framework.exceptions import NotAcceptable
 from accounts.students.models import StudentProfile
 from accounts.students.serializers.front_serialiser import ChangePasswordSerializer, ProfileModificationSerializer, ProfileStudentSerialiser
 from accounts.students.mixins.front import RetrieveUserMixin, UpdateUserMixin
+from apps.courses.serializers.front_serializer import CourseListSerialiser
 
 class UserProfileApiView(RetrieveUserMixin, UpdateUserMixin, GenericAPIView):
 
@@ -44,3 +45,15 @@ class ProfileChangePasswordApiView(UpdateAPIView):
         return self.request.user
     
 
+class UserCoursesViewSet(ListModelMixin, GenericViewSet):
+    
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = CourseListSerialiser
+    
+    def get_object(self):
+        return self.request.user
+
+    def get_queryset(self):
+        user = self.get_object()
+        return user.courses.all()
