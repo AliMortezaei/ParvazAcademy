@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAdminUser
+from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters import rest_framework as filters
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
@@ -59,7 +60,8 @@ class AdminCourseViewSet(ModelViewSet):
 class CourseSectionsViewSet(ModelViewSet):
 
     #permission_classes = [IsAdminUser]
-    serializer_class = AdminCourseSectionListSerializer
+    serializer_class = AdminSectionSeialiser
+    queryset = Course.objects.all().select_related('sections')
 
     def get_queryset(self):
         course_slug = self.kwargs.get("course_slug")
@@ -73,15 +75,8 @@ class CourseSectionsViewSet(ModelViewSet):
         
         
 
-    def get_serializer_class(self):
-        match self.action:
-            case "list":
-                return AdminCourseSectionListSerializer
-            case "create":
-                return AdminSectionSeialiser
-            case "retrieve":
-                return AdminSectionSeialiser
-            
+
+
             
 @extend_schema(operation_id="student", tags=["admin student"])
 class CourseStudentsViewSet(ListModelMixin, StudentsJoinMixin, DestroyModelMixin, GenericViewSet):

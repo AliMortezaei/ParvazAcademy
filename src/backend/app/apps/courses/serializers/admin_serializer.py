@@ -64,7 +64,6 @@ class AdminCourseStudentListSerialiser(serializers.ModelSerializer):
 
 
 
-
 class AdminCourseSectionListSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -73,7 +72,15 @@ class AdminCourseSectionListSerializer(serializers.ModelSerializer):
 
 class AdminSectionSeialiser(serializers.ModelSerializer):
     course = serializers.CharField(source='course.title', read_only=True)
+    title = serializers.CharField(required=False)
+
     class Meta:
         model = Section
         fields = '__all__'
+
+    def validate(self, attrs):
+        course_slug = self.context.get('view').kwargs.get("course_slug")
+        course = get_object_or_404(Course, slug=course_slug)
+        attrs['course'] = course
+        return attrs
 

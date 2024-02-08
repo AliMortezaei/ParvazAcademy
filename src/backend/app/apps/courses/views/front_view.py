@@ -8,7 +8,7 @@ from accounts.teachers.permissions import IsTeacher
 
 from apps.courses.permissions import StudentCoursePermission
 from apps.courses.models import Category, Course, Section
-from apps.courses.serializers.front_serializer import CategoryListSerialiser, CategoryRetrieveSerialiser, CourseListSerialiser, CourseRetrieveSerialiser, SectionRetriveSerialiser
+from apps.courses.serializers.front_serializer import CategoryListSerialiser, CategoryRetrieveSerialiser, CourseListSerialiser, CourseRetrieveSerialiser, SectionListSerialiser, SectionRetriveSerialiser
 from apps.courses.mixins.front import JoinStudentCourseMixin
 
 class CoursesViewSet(JoinStudentCourseMixin, ReadOnlyModelViewSet):
@@ -41,6 +41,17 @@ class SectionsViewSet(ReadOnlyModelViewSet):
     lookup_field = 'slug'
     lookup_url_kwarg = 'section_slug'
 
+    def get_permissions(self):
+        if self.action == "list":
+            return [AllowAny()]
+        return super().get_permissions()
+    
+    def get_serializer_class(self):
+        match self.action:
+            case "list":
+                return SectionListSerialiser
+        return super().get_serializer_class()
+    
     def get_queryset(self):
         course_slug = self.kwargs.get("course_slug")
         course = get_object_or_404(Course, slug=course_slug)

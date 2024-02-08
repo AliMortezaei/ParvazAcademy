@@ -13,11 +13,11 @@ urlpatterns = [
     
     path('', include(router.urls)),
     
-    path('courses/<slug:course_slug>/sections/',
+    path('courses/<str:course_slug>/sections/',
         SectionsViewSet.as_view({'get': 'list'}),
         name='course-section-list'
     ),
-    path('courses/<slug:course_slug>/sections/<slug:section_slug>/',
+    path('courses/<str:course_slug>/sections/<str:section_slug>/',
         SectionsViewSet.as_view({'get': 'retrieve'}),
         name='course-section-detail'
     )
