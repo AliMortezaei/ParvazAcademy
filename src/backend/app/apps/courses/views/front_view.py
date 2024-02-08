@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotAcceptable
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from accounts.teachers.permissions import IsTeacher
 
 from apps.courses.permissions import StudentCoursePermission
 from apps.courses.models import Category, Course, Section
@@ -34,7 +35,7 @@ class CoursesViewSet(JoinStudentCourseMixin, ReadOnlyModelViewSet):
 
 class SectionsViewSet(ReadOnlyModelViewSet):
 
-    permission_classes = [StudentCoursePermission]
+    permission_classes = [IsAuthenticated, StudentCoursePermission]
     queryset = Section.objects.all().select_related('course')
     serializer_class = SectionRetriveSerialiser
     lookup_field = 'slug'

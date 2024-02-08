@@ -51,16 +51,17 @@ class TeacherProfileApiView(RetrieveUserMixin, UpdateUserMixin, GenericAPIView):
 
 class TeacherCoursesViewSet(ModelViewSet):
     
-    permission_classes = [IsTeacher, IsTeacherCourse]
+    permission_classes = [IsTeacher]
     
     #serializer_class = CourseListSerialiser
     lookup_field = 'slug'
     lookup_url_kwarg = 'course_slug'
     
     def get_permissions(self):
-        if self.action == "list":
+        if self.action == "list" or self.action == "create":
                 return [IsTeacher()]
-        return super().get_permissions()
+        else:
+            return [IsTeacherCourse()]
     
     def get_serializer_class(self):
         match self.action:
