@@ -10,6 +10,7 @@ from apps.courses.models import Category, Course
 from apps.courses.serializers.admin_serializer import \
 (
     AdminCategorySerializer,
+    AdminCourseModificationSerializer,
     AdminCourseSectionListSerializer,
     AdminSectionSeialiser,
     AdminCourseSerializer,
@@ -48,6 +49,11 @@ class AdminCourseViewSet(ModelViewSet):
 
     lookup_field = 'slug'
     lookup_url_kwarg = 'slug'
+    def get_serializer_class(self):
+        if self.action == "partial_update" or self.action == "update":
+            return AdminCourseModificationSerializer
+        return super().get_serializer_class()
+            
 
 @extend_schema(operation_id="section", tags=["admin section"])
 class CourseSectionsViewSet(ModelViewSet):

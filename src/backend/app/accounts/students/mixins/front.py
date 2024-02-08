@@ -47,13 +47,14 @@ class UpdateUserMixin:
             data=request.data , partial=partial, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
-        self.update(instance=user_profile, validated_data=serializer.data, image=request.data['image'])
+        instance, user = self.update(instance=user_profile, validated_data=serializer.data, request=request)
+        self.perform_update_save(instance, user)
         return Response(data={"detail": "successfuly"} , status=status.HTTP_200_OK)
 
 
-    def update(self, instance, validated_data, image):
+    def update(self, instance, validated_data, request):
         user_data = validated_data.pop('full_name') if "full_name" in validated_data else None
-        validated_data['image'] = image
+        validated_data['image'] = request.data['image']
         user = instance.user
         
         instance.city = self.check(validated_data['city'], instance.city)
@@ -61,16 +62,16 @@ class UpdateUserMixin:
         instance.image = self.check(validated_data['image'], instance.image)
         instance.birthday = self.check(validated_data['birthday'], instance.birthday)
         user.full_name = self.check(user_data, user.full_name)
-
+        return instance, user
+    
+    def perform_update_save(self, instance, user):
         instance.save()
         user.save()
-        
-        return True
 
     def check(self, validate_data, data):
         if validate_data is not None and validate_data != "":
             return validate_data
-        return 
+        return data
 
 
     

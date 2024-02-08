@@ -1,5 +1,6 @@
 
 
+from urllib import request
 from attr import field
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
@@ -25,9 +26,9 @@ class AdminCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         #fields = '__all__'
-        exclude = ("date_end", "students")
+        exclude = ("students",)
 
-
+    
     def create(self, validated_data):
         category_slug = validated_data.get('category')['slug']
         teacher_full_name = validated_data.get('teacher')['full_name']
@@ -36,6 +37,16 @@ class AdminCourseSerializer(serializers.ModelSerializer):
 
         return super().create(validated_data)
 
+class AdminCourseModificationSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(required=False)
+    category = serializers.SerializerMethodField()
+    teacher = serializers.CharField(required=False)
+    class Meta:
+        model = Course
+        exclude = ("students",)
+        
+    def get_category(self, obj):
+        return obj.category.title
 
 
 # student serializer
