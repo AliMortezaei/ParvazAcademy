@@ -23,4 +23,5 @@ class TeacherProfile(models.Model):
     birthday = models.DateField(_("bithday"), blank=True, null=True)
     
     image = models.FileField(storage=ImageMediaStorage(), blank=True, null=True)
-    
+    resume = models.FileField(storage=ImageMediaStorage(), blank=True, null=True)
+

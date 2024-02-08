@@ -29,12 +29,15 @@ class CourseRetrieveSerialiser(serializers.ModelSerializer):
         teacher_profile = user.teacher_profile
         return ProfileTeacherCourseSerialiser(teacher_profile).data
 
+class SectionListSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        exclude = ("course", "link", "description", "date_start")
 
 class SectionRetriveSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Section
-        fields = '__all__'
-        #exclude = ("course",)
+        exclude = ("course",)
 
 class CategoryListSerialiser(serializers.ModelSerializer):
 

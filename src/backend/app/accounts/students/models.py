@@ -20,7 +20,6 @@ class StudentProfile(models.Model):
     city = models.CharField(_("city") ,max_length=65, blank=True, null=True)
     birthday = models.DateField(_("bithday"), blank=True, null=True)
 
-    # TODO: image save s3 ...
     image = models.FileField(storage=ImageMediaStorage(), blank=True, null=True)
 
 

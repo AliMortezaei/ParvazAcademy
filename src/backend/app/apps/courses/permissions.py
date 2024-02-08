@@ -13,11 +13,12 @@ class StudentCoursePermission(BasePermission):
     they must be in the list of students of the course, IsAuthenticated
     """
     def has_permission(self, request, view):
-        is_authenticated = bool(request.user and request.user.is_authenticated)
         course_slug = view.kwargs.get('course_slug')
         self.get_course_valied(course_slug)
         user_course = request.user.courses.filter(slug=course_slug).exists()
-        if is_authenticated and user_course:
+        if user_course:
+            return True
+        elif str(request.user.user_type) == "teacher":
             return True
         return False
 

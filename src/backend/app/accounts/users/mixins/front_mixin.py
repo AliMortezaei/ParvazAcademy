@@ -43,7 +43,7 @@ class VerifyUserMixin(UserAuthBaseMixin):
             phone_number=serializer.data['phone_number'], **verify_data
         )
         token = self.get_tokens_for_user(user)
-        return Response(data=token, status=status.HTTP_201_CREATED)
+        return Response(data={'token': token, 'user_type': str(user.user_type)}, status=status.HTTP_201_CREATED)
 
 
     def valied_code(self, current_code, save_code):
@@ -91,6 +91,6 @@ class LoginEmailUserMixin(UserAuthBaseMixin):
             password=serializer.data['password']
         )
         token = self.get_tokens_for_user(user)
-        return Response(data=token, status=status.HTTP_201_CREATED)
+        return Response(data={'token': token, 'user_type': str(user.user_type)}, status=status.HTTP_201_CREATED)
     
         
