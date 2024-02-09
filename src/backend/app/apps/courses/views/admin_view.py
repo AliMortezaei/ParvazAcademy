@@ -79,7 +79,7 @@ class CourseSectionsViewSet(ModelViewSet):
 
             
 @extend_schema(operation_id="student", tags=["admin student"])
-class CourseStudentsViewSet(ListModelMixin, StudentsJoinMixin, DestroyModelMixin, GenericViewSet):
+class AdminCourseStudentsViewSet(ListModelMixin, StudentsJoinMixin, DestroyModelMixin, GenericViewSet):
 
     #permission_classes = [IsAdminUser]
     queryset = Course.objects.all().select_related('students')

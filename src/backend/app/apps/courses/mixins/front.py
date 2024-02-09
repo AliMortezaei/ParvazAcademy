@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.mixins import DestroyModelMixin
 
 from apps.courses.models import Course
 
@@ -27,4 +28,14 @@ class JoinStudentCourseMixin:
                 return Response(data={"detail": "course not started"}, status=status.HTTP_400_BAD_REQUEST)
 
         
-        
+class SectionDestroMixin(DestroyModelMixin):
+
+    def perform_destroy(self, instance):
+        student = get_object_or_404(instance.students, id=self.kwargs.get('student_id'))
+        try:
+            instance.students.remove(student)
+            instance.numbers -= 1
+            instance.save()
+        except Exception:
+                return Response(data={"error": "error"}, status=status.HTTP_400_BAD_REQUEST)
+    
