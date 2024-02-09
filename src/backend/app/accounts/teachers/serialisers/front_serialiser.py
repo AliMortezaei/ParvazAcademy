@@ -1,4 +1,5 @@
 
+from urllib import request
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
@@ -39,11 +40,12 @@ class TeacherCourseSerialiser(serializers.ModelSerializer):
  
 class TeacherCourseModificationSerialiser(serializers.ModelSerializer):
     title = serializers.CharField(required=False)
-    category = serializers.SerializerMethodField()
+    category = serializers.CharField(required=False)
     teacher = serializers.CharField(source='teacher.full_name', read_only=True)
     class Meta:
         model = Course
         exclude = ('students',)
         
-    def get_category(self, obj):
-        return obj.category.title
+
+    def validate_category(self, value):
+        return get_object_or_404(Category, slug=value)

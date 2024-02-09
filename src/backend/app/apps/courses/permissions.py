@@ -12,6 +12,8 @@ class StudentCoursePermission(BasePermission):
     This is for users who want to access any part of the course,
     they must be in the list of students of the course, IsAuthenticated
     """
+    message = "شما نمیتوانید به این بخش دسترسی داشته باشید"
+    
     def has_permission(self, request, view):
         course_slug = view.kwargs.get('course_slug')
         self.get_course_valied(course_slug)

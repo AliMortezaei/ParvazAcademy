@@ -6,8 +6,8 @@ from rest_framework.routers import DefaultRouter
 from apps.courses.views.admin_view import\
 (
     AdminCategoryViewSet,
+    AdminCourseStudentsViewSet,
     AdminCourseViewSet,
-    CourseStudentsViewSet,
     CourseSectionsViewSet
 )
 
@@ -20,11 +20,11 @@ router.register(r'courses', AdminCourseViewSet)
 urlpatterns = [
     path(r'', include(router.urls)),
     path(r'courses/<str:course_slug>/students/',
-         CourseStudentsViewSet.as_view({'get': 'list'}),
+         AdminCourseStudentsViewSet.as_view({'get': 'list'}),
          name='student-list'
     ),
     path(r'courses/<str:course_slug>/students/<int:student_id>/',
-        CourseStudentsViewSet.as_view({'delete': 'destroy','post': 'join_student'}),
+        AdminCourseStudentsViewSet.as_view({'delete': 'destroy','post': 'join_student'}),
         name='students'
     ),
     
