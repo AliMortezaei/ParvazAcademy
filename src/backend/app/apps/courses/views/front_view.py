@@ -3,6 +3,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import (GenericViewSet, ModelViewSet, ReadOnlyModelViewSet)
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
+from drf_spectacular.utils import extend_schema
 
 from accounts.teachers.permissions import IsTeacher, IsTeacherCourse
 from accounts.teachers.serialisers.front_serialiser import TeacherCourseModificationSerialiser, TeacherCourseSerialiser
@@ -21,7 +22,7 @@ from apps.courses.serializers.front_serializer import \
 )
 
 
-
+@extend_schema(operation_id="courses", tags=["courses"])
 class CoursesViewSet(JoinStudentCourseMixin, ModelViewSet):
 
     permission_classes = [AllowAny]
@@ -60,7 +61,7 @@ class CoursesViewSet(JoinStudentCourseMixin, ModelViewSet):
             
     def perform_create(self, serializer):
         serializer.save(teacher=self.request.user)
-
+@extend_schema(operation_id="course-sections", tags=["course sections"])
 class SectionsViewSet(ModelViewSet):
 
     permission_classes = [IsAuthenticated, StudentCoursePermission]
@@ -93,7 +94,7 @@ class SectionsViewSet(ModelViewSet):
         section_slug = self.kwargs.get("section_slug")
         return get_object_or_404(self.get_queryset(), slug=section_slug)
 
-
+@extend_schema(operation_id="category", tags=["category"])
 class CategoryViewSet(ReadOnlyModelViewSet):
 
     permission_classes = [AllowAny]
@@ -112,7 +113,7 @@ class CategoryViewSet(ReadOnlyModelViewSet):
             case _:
                 return NotAcceptable
 
-
+@extend_schema(operation_id="course-students", tags=["course students"])
 class CourseStudentsViewSet(ListModelMixin, SectionDestroMixin, GenericViewSet):
     
     queryset = Course.objects.all().select_related('students')
