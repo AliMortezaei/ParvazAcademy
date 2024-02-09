@@ -5,13 +5,14 @@ from rest_framework.mixins import UpdateModelMixin, ListModelMixin
 from rest_framework.generics import UpdateAPIView, GenericAPIView
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from rest_framework.exceptions import NotAcceptable
-
+from drf_spectacular.utils import extend_schema
 
 from accounts.students.models import StudentProfile
 from accounts.students.serializers.front_serialiser import ChangePasswordSerializer, ProfileModificationSerializer, ProfileStudentSerialiser
 from accounts.students.mixins.front import RetrieveUserMixin, UpdateUserMixin
 from apps.courses.serializers.front_serializer import CourseListSerialiser
 
+@extend_schema(operation_id="user-profile", tags=["user profile"])
 class UserProfileApiView(RetrieveUserMixin, UpdateUserMixin, GenericAPIView):
 
     permission_classes = [IsAuthenticated]
@@ -34,7 +35,7 @@ class UserProfileApiView(RetrieveUserMixin, UpdateUserMixin, GenericAPIView):
             case _:
                 raise NotAcceptable()
 
-
+@extend_schema(operation_id="user-profile-change-password", tags=["user profile"])
 class ProfileChangePasswordApiView(UpdateAPIView):
 
     permission_classes = [IsAuthenticated]
@@ -44,7 +45,7 @@ class ProfileChangePasswordApiView(UpdateAPIView):
     def get_object(self):
         return self.request.user
     
-
+@extend_schema(operation_id="user-profile-courses", tags=["user profile"])
 class UserCoursesViewSet(ListModelMixin, GenericViewSet):
     
     permission_classes = [IsAuthenticated]
