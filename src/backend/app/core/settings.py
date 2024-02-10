@@ -60,10 +60,10 @@ THIRD_PARTY_APPS = [
 ]
 
 APP_MODULES = [
-    "accounts.users",
-    "accounts.students",
-    "accounts.teachers",
-    "apps.courses"
+    "accounts.users.apps.UsersConfig",
+    "accounts.students.apps.StudentsConfig",
+    "accounts.teachers.apps.TeachersConfig",
+    "apps.courses.apps.CoursesConfig"
 ]
 
 INSTALLED_APPS = [
