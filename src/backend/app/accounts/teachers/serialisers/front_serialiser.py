@@ -42,6 +42,7 @@ class TeacherCourseModificationSerialiser(serializers.ModelSerializer):
     title = serializers.CharField(required=False)
     category = serializers.CharField(required=False)
     teacher = serializers.CharField(source='teacher.full_name', read_only=True)
+    date_start = serializers.DateTimeField(format='%y/%m/%d')
     class Meta:
         model = Course
         exclude = ('students',)
