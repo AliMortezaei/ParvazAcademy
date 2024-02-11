@@ -26,7 +26,7 @@ class AdminCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         #fields = '__all__'
-        exclude = ("students",)
+        exclude = ("students", 'numbers')
 
     
     def create(self, validated_data):
@@ -48,19 +48,6 @@ class AdminCourseModificationSerializer(serializers.ModelSerializer):
     def get_category(self, obj):
         return obj.category.title
 
-
-# student serializer
-
-class AdminCourseStudentListSerialiser(serializers.ModelSerializer):
-    profile = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = User
-        exclude = ('password', 'groups', 'user_permissions', 'is_superuser', 'is_staff')
-
-    def get_profile(self, obj):
-        profile = obj.student_profile
-        return AdminProfileSerialiser(profile).data
 
 
 

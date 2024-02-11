@@ -32,7 +32,7 @@ class TeacherCourseSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Course
         #fields = '__all__'
-        exclude = ('students',)
+        exclude = ('students', 'numbers')
 
     def validate_category(self, value):
         return get_object_or_404(Category, slug=value)

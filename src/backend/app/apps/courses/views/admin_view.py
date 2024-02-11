@@ -4,6 +4,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters import rest_framework as filters
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from drf_spectacular.utils import extend_schema
+from app.apps.courses.serializers.front_serializer import CourseStudentSerialiser
 
 from apps.courses.filters import CourseFilter
 from apps.courses.mixins.admin import StudentsJoinMixin
@@ -85,6 +86,6 @@ class AdminCourseStudentsViewSet(ListModelMixin, StudentsJoinMixin, DestroyModel
 
     def get_serializer_class(self):
         if self.action == "list":
-            return AdminCourseStudentListSerialiser
+            return CourseStudentSerialiser
 
     
