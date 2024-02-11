@@ -19,7 +19,7 @@ class OtpManager:
     def __init__(self):
         self.otp = KavenegarAPI(settings.OTP_KAVENEGAR_KEY)
 
-    def send_sms(self, receptor: str, message: Callable[..., str]):
+    def _send_otp(self, receptor: str, message: Callable[..., str]):
         try:
            
             response = self.otp.sms_send(
@@ -29,9 +29,18 @@ class OtpManager:
                     'message': message,
                 }
             )
+            
         except (APIException, HTTPException) as exp:
             raise ServiceUnavailableException()
-            
+
+    def send_sms(self, phone_number, code, template):
+        template_schema = OtpMassageTemplate()
+        match template:
+            case 'register':
+                return self._send_otp(phone_number,template_schema.regster(code))
+            case 'login':
+                return self._send_otp(phone_number,template_schema.login(code))
+
     @staticmethod    
     def generate_otp_code() -> int:
         random_code = random.randint(10000, 99999)

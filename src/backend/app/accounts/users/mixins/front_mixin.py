@@ -22,7 +22,7 @@ class RegisterUserMixin(UserAuthBaseMixin):
     def perform_save(self, serializer):
         data = serializer.data
         phone_number = self.redis.add_to_redis(code=self.code, **data)
-        tasks.send_otp_code.delay(phone_number, self.code)
+        tasks.send_otp_code.delay(phone_number, self.code, 'register')
         return True
 
 
@@ -71,8 +71,7 @@ class LoginOtpUserMixin(UserAuthBaseMixin):
     def perform_save(self, data):
         code = self.otp.generate_otp_code()
         phone_number = self.redis.add_to_redis(code=code, **data)
-        message = self.otp_message_template.login(message=code)
-        #self.otp.send_sms(receptor=phone_number, message=message)
+        tasks.send_otp_code.delay(phone_number, self.code, 'login')
         return True
 
 
