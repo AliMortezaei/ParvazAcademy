@@ -4,16 +4,17 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import (GenericViewSet, ModelViewSet, ReadOnlyModelViewSet)
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from drf_spectacular.utils import extend_schema
+from django_filters import rest_framework as filters
 
 from accounts.teachers.permissions import IsTeacher, IsTeacherCourse
 from accounts.teachers.serialisers.front_serialiser import TeacherCourseModificationSerialiser, TeacherCourseSerialiser
 from apps.courses.mixins.front import JoinStudentCourseMixin, SectionDestroMixin
 from apps.courses.models import Category, Course, Section
 from apps.courses.permissions import StudentCoursePermission
+from apps.courses.filters import CourseFilter
 from apps.courses.serializers.front_serializer import \
 (
     CategoryListSerialiser,
-    CategoryRetrieveSerialiser,
     CourseListSerialiser,
     CourseRetrieveSerialiser,
     CourseStudentSerialiser,
@@ -29,6 +30,8 @@ class CoursesViewSet(JoinStudentCourseMixin, ModelViewSet):
     queryset = Course.objects.all()
     lookup_field = 'slug'
     lookup_url_kwarg = 'course_slug'
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = CourseFilter
 
     def get_object(self):
         match self.action:
@@ -95,23 +98,12 @@ class SectionsViewSet(ModelViewSet):
         return get_object_or_404(self.get_queryset(), slug=section_slug)
 
 @extend_schema(operation_id="category", tags=["category"])
-class CategoryViewSet(ReadOnlyModelViewSet):
+class CategoryViewSet(ListModelMixin, GenericViewSet):
 
     permission_classes = [AllowAny]
     queryset = Category.objects.all()
     serializer_class = CategoryListSerialiser
-    lookup_field = 'slug'
-    lookup_url_kwarg = 'slug'
 
-
-    def get_serializer_class(self):
-        match self.action:
-            case "list":
-                return CategoryListSerialiser
-            case "retrieve":
-                return CategoryRetrieveSerialiser
-            case _:
-                return NotAcceptable
 
 @extend_schema(operation_id="course-students", tags=["course students"])
 class CourseStudentsViewSet(ListModelMixin, SectionDestroMixin, GenericViewSet):

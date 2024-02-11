@@ -1,6 +1,8 @@
 
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from jalali_date import datetime2jalali, date2jalali
+
 from accounts.teachers.models import TeacherProfile
 from accounts.users.models import User
 from accounts.students.serializers.admin_serializer import AdminProfileSerialiser
@@ -55,28 +57,29 @@ class SectionSerialiser(serializers.ModelSerializer):
         return attrs
 
 class CategoryListSerialiser(serializers.ModelSerializer):
-
     class Meta:
-        model = Category
-        exclude = ("description",)
-
-class CategoryRetrieveSerialiser(serializers.ModelSerializer):
-    courses = serializers.SerializerMethodField()
-    class Meta:
-        model = Category
+        model = Category        
         fields = '__all__'
 
-    def get_courses(self, obj):
-        courses = obj.courses.all()
-        return CourseListSerialiser(courses, many=True).data
 
 class CourseStudentSerialiser(serializers.ModelSerializer):
     profile = serializers.SerializerMethodField(read_only=True)
-
+    data_joined_course = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = ['id', 'email', 'phone_number', 'profile']
+        fields = ['id', 'email', 'phone_number', 'profile', 'data_joined_course']
 
     def get_profile(self, obj):
         profile = obj.student_profile
         return AdminProfileSerialiser(profile).data
+
+    def get_data_joined_course(self, obj):
+        course_slug = self.context.get('view').kwargs.get("course_slug")
+        course = get_object_or_404(Course, slug=course_slug)
+        date = obj.course_student.get(course=course)
+        return str(date2jalali(date.join_date))
+        
+
+
+    
+    
