@@ -1,11 +1,11 @@
-from django.shortcuts import get_object_or_404
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAdminUser
-from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters import rest_framework as filters
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from drf_spectacular.utils import extend_schema
 
+from apps.courses.filters import CourseFilter
 from apps.courses.mixins.admin import StudentsJoinMixin
 from apps.courses.models import Category, Course
 from apps.courses.serializers.admin_serializer import \
@@ -23,30 +23,21 @@ from apps.courses.serializers.admin_serializer import \
 @extend_schema(operation_id="categories", tags=["admin category"])
 class AdminCategoryViewSet(ModelViewSet):
 
-    #permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
     serializer_class = AdminCategorySerializer
     queryset = Category.objects.all()
     lookup_field = 'slug'
     lookup_url_kwarg = 'slug'
 
 
-# class CourseFilter(filters.FilterSet):
-#     category__title = filters.CharFilter(lookup_expr='icontains',field_name='category')
-#     #students__name = filters.CharFilter(lookup_expr='icontains')
-    
-#     class Meta:
-#         model = Course
-#         fields = ['is_start', 'students']
-
-
 @extend_schema(operation_id="course", tags=["admin course"])
 class AdminCourseViewSet(ModelViewSet):
 
     serializer_class = AdminCourseSerializer
-   # permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
     queryset = Course.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    # filterset_class = CourseFilter
+    filterset_class = CourseFilter
 
     lookup_field = 'slug'
     lookup_url_kwarg = 'slug'
@@ -59,7 +50,7 @@ class AdminCourseViewSet(ModelViewSet):
 @extend_schema(operation_id="section", tags=["admin section"])
 class CourseSectionsViewSet(ModelViewSet):
 
-    #permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
     serializer_class = AdminSectionSeialiser
     queryset = Course.objects.all().select_related('sections')
 
@@ -81,7 +72,7 @@ class CourseSectionsViewSet(ModelViewSet):
 @extend_schema(operation_id="student", tags=["admin student"])
 class AdminCourseStudentsViewSet(ListModelMixin, StudentsJoinMixin, DestroyModelMixin, GenericViewSet):
 
-    #permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
     queryset = Course.objects.all().select_related('students')
 
     def get_queryset(self):

@@ -55,20 +55,10 @@ class SectionSerialiser(serializers.ModelSerializer):
         return attrs
 
 class CategoryListSerialiser(serializers.ModelSerializer):
-
     class Meta:
-        model = Category
-        exclude = ("description",)
-
-class CategoryRetrieveSerialiser(serializers.ModelSerializer):
-    courses = serializers.SerializerMethodField()
-    class Meta:
-        model = Category
+        model = Category        
         fields = '__all__'
 
-    def get_courses(self, obj):
-        courses = obj.courses.all()
-        return CourseListSerialiser(courses, many=True).data
 
 class CourseStudentSerialiser(serializers.ModelSerializer):
     profile = serializers.SerializerMethodField(read_only=True)

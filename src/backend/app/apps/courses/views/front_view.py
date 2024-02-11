@@ -15,7 +15,6 @@ from apps.courses.filters import CourseFilter
 from apps.courses.serializers.front_serializer import \
 (
     CategoryListSerialiser,
-    CategoryRetrieveSerialiser,
     CourseListSerialiser,
     CourseRetrieveSerialiser,
     CourseStudentSerialiser,
@@ -99,23 +98,12 @@ class SectionsViewSet(ModelViewSet):
         return get_object_or_404(self.get_queryset(), slug=section_slug)
 
 @extend_schema(operation_id="category", tags=["category"])
-class CategoryViewSet(ReadOnlyModelViewSet):
+class CategoryViewSet(ListModelMixin, GenericViewSet):
 
     permission_classes = [AllowAny]
     queryset = Category.objects.all()
     serializer_class = CategoryListSerialiser
-    lookup_field = 'slug'
-    lookup_url_kwarg = 'slug'
 
-
-    def get_serializer_class(self):
-        match self.action:
-            case "list":
-                return CategoryListSerialiser
-            case "retrieve":
-                return CategoryRetrieveSerialiser
-            case _:
-                return NotAcceptable
 
 @extend_schema(operation_id="course-students", tags=["course students"])
 class CourseStudentsViewSet(ListModelMixin, SectionDestroMixin, GenericViewSet):
