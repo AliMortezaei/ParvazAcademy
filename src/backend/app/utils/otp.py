@@ -29,7 +29,6 @@ class OtpManager:
                     'message': message,
                 }
             )
-            
         except (APIException, HTTPException) as exp:
             raise ServiceUnavailableException()
             

@@ -6,7 +6,6 @@ from jalali_date import datetime2jalali, date2jalali
 from accounts.teachers.models import TeacherProfile
 from accounts.users.models import User
 from accounts.students.serializers.admin_serializer import AdminProfileSerialiser
-from apps.courses.serializers.admin_serializer import AdminCourseStudentListSerialiser
 
 from apps.courses.models import Course, Section, Category
 

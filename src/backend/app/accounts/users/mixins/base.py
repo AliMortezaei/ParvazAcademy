@@ -7,11 +7,9 @@ from utils.otp import OtpManager, OtpMassageTemplate
 
 class UserAuthBaseMixin:
 
-    otp = OtpManager()
-    otp_message_template = OtpMassageTemplate()
+    code = OtpManager().generate_otp_code()
     redis = RedisManager()
 
-        
     def valiedate_serializer(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -3,12 +3,10 @@ from rest_framework import status
 from rest_framework.decorators import action
 from django.contrib.auth import authenticate
 
-
-
 from .base import UserAuthBaseMixin
 from utils.exception import InvaliedCodeVrify
 from accounts.users.models import User
-
+from accounts.users import tasks
 
 class RegisterUserMixin(UserAuthBaseMixin):
     
@@ -22,11 +20,9 @@ class RegisterUserMixin(UserAuthBaseMixin):
         )
 
     def perform_save(self, serializer):
-        code = self.otp.generate_otp_code()
         data = serializer.data
-        phone_number = self.redis.add_to_redis(code=code, **data)
-        message = self.otp_message_template.regster(message=code)
-        #self.otp.send_sms(receptor=phone_number, message=message)
+        phone_number = self.redis.add_to_redis(code=self.code, **data)
+        tasks.send_otp_code.delay(phone_number, self.code)
         return True
 
 

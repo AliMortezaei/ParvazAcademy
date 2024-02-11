@@ -4,7 +4,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters import rest_framework as filters
 from rest_framework.mixins import ListModelMixin, DestroyModelMixin
 from drf_spectacular.utils import extend_schema
-from app.apps.courses.serializers.front_serializer import CourseStudentSerialiser
+from apps.courses.serializers.front_serializer import CourseStudentSerialiser
 
 from apps.courses.filters import CourseFilter
 from apps.courses.mixins.admin import StudentsJoinMixin
@@ -16,7 +16,6 @@ from apps.courses.serializers.admin_serializer import \
     AdminCourseSectionListSerializer,
     AdminSectionSeialiser,
     AdminCourseSerializer,
-    AdminCourseStudentListSerialiser,
     
 
 )

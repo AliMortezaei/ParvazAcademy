@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +40,10 @@ REDIS_PORT = os.environ.get("REDIS_PORT")
 
 REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 
+# Celery Configuration Options
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
 
 # otp key
 OTP_KAVENEGAR_KEY = os.environ.get("OTP_KAVENEGAR_KEY") 
@@ -315,3 +320,4 @@ JALALI_DATE_DEFAULTS = {
         'datetime': '%H:%M:%S _ %y/%m/%d',
     },
 }
+
