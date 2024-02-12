@@ -25,19 +25,6 @@ def validate_phone_number(phone_number):
     return phone_number
 
 
-@extend_schema_serializer(
-    exclude_fields=('',), # schema ignore these fields
-    examples=[
-        OpenApiExample('UserRegister_1', 
-        summary='save user with register' ,
-        value={
-            'email': 'parvaz@example.com',
-            'full_name': 'alirez mortezaei',
-            'phone_number': '09163261462',
-            'password': 'parvaz_2324',
-        })
-    ]
-)
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
