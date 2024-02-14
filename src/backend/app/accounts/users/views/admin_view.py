@@ -12,7 +12,7 @@ from accounts.users.filters import AdminUserFilter
         
 class AdminUserViewSet(ModelViewSet):
     
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AdminUserFilter

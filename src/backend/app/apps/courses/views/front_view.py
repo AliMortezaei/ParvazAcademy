@@ -8,7 +8,7 @@ from django_filters import rest_framework as filters
 
 from accounts.teachers.permissions import IsTeacher, IsTeacherCourse
 from accounts.teachers.serialisers.front_serialiser import TeacherCourseModificationSerialiser, TeacherCourseSerialiser
-from apps.courses.mixins.front import JoinStudentCourseMixin, SectionDestroMixin
+from apps.courses.mixins.front import JoinStudentCourseMixin, StudentDestroMixin
 from apps.courses.models import Category, Course, Section
 from apps.courses.permissions import StudentCoursePermission
 from apps.courses.filters import CourseFilter
@@ -25,6 +25,11 @@ from apps.courses.serializers.front_serializer import \
 
 @extend_schema(operation_id="courses", tags=["courses"])
 class CoursesViewSet(JoinStudentCourseMixin, ModelViewSet):
+    """
+    handles various actions related to `courses`,including `creating`, `updating`,
+    and `deleting` and `list` courses, as well as `joining students` to courses.
+    
+    """
 
     permission_classes = [AllowAny]
     queryset = Course.objects.all()
@@ -66,6 +71,13 @@ class CoursesViewSet(JoinStudentCourseMixin, ModelViewSet):
         serializer.save(teacher=self.request.user)
 @extend_schema(operation_id="course-sections", tags=["course sections"])
 class SectionsViewSet(ModelViewSet):
+    """
+    The Sections class used add section to course and delete section that course , retrieve list
+    sections.
+    `None` the class used for `teacher` that must be the `owner of the course`
+    takes course_slug and must course would have existed
+    con `retrieve special section` whit section_slug 
+    """
 
     permission_classes = [IsAuthenticated, StudentCoursePermission]
     queryset = Course.objects.all().select_related('sections')
@@ -99,15 +111,22 @@ class SectionsViewSet(ModelViewSet):
 
 @extend_schema(operation_id="category", tags=["category"])
 class CategoryViewSet(ListModelMixin, GenericViewSet):
-
+    """
+    a endpoint for category courses for use see all 
+     
+    """
     permission_classes = [AllowAny]
     queryset = Category.objects.all()
     serializer_class = CategoryListSerialiser
 
 
 @extend_schema(operation_id="course-students", tags=["course students"])
-class CourseStudentsViewSet(ListModelMixin, SectionDestroMixin, GenericViewSet):
+class CourseStudentsViewSet(ListModelMixin, StudentDestroMixin, GenericViewSet):
+    """
+    a endpoint used for list students that course and remove student from course 
+    takes course_slug and for remove student from course used student_id 
     
+    """
     queryset = Course.objects.all().select_related('students')
     permission_classes = [IsTeacher, IsTeacherCourse]
     serializer_class = CourseStudentSerialiser
