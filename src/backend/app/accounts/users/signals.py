@@ -21,8 +21,7 @@ def create_profile(sender, instance, created, **kwargs):
                 TeacherProfile.objects.create(
                     user_id=instance.id, image=settings.DEFAULT_PROFILE
                 )
-            case _:
-                raise ValueError("user type not found")
+
 
 
 @receiver(post_save, sender=User)

@@ -1,0 +1,73 @@
+version: "3.9"
+
+
+services:
+  web:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: web
+    env_file:
+      - ./backend/app/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - celery
+    networks:
+      - main
+    # restart: on-failure
+
+  
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - main
+    restart: on-failure
+    depends_on:
+      - redis
+    ports:
+      - "5432:5432"
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    volumes:
+        - redis_data:/data
+
+    ports:
+      - "6379:6379"
+    networks:
+      - main
+ 
+
+  celery:
+    build: ./backend
+    container_name: celery
+    command: "celery -A core worker -l info"
+    volumes:
+      - ./backend/app:/code
+    networks:
+      - main
+    depends_on:
+      - redis
+      - postgres
+    env_file:
+      - ./backend/app/.env
+
+
+networks:
+  main:
+
+volumes:
+  postgres_data:
+  redis_data: 

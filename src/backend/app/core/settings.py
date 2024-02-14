@@ -38,7 +38,7 @@ if ENV_ALLOWED_HOST:
 REDIS_HOST = os.environ.get("REDIS_HOST") 
 REDIS_PORT = os.environ.get("REDIS_PORT") 
 
-REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/"
 
 # Celery Configuration Options
 
@@ -144,7 +144,6 @@ DB_IS_AVAIL = all([
     DB_HOST,
     DB_PORT
 ])
-DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
 
 if DB_IS_AVAIL:
     DATABASES = {
@@ -157,10 +156,7 @@ if DB_IS_AVAIL:
             "PORT": DB_PORT,
         }
     }
-    if not DB_IGNORE_SSL:
-        DATABASES["default"]["OPTIONS"] = {
-            "sslmode": "require"
-        }
+
 
 # congif django-storage  => ARVAN CLOUD STORAGE
 
