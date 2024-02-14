@@ -7,8 +7,8 @@ from apps.courses.views.front_view import CategoryViewSet, CoursesViewSet, Secti
 
 
 router = routers.DefaultRouter()
-router.register(r'^courses', CoursesViewSet) 
-router.register(r'^categories', CategoryViewSet, basename='Category')
+router.register(r'^courses', CoursesViewSet, basename='course') 
+router.register(r'^categories', CategoryViewSet, basename='category')
 urlpatterns = [
     
     path('', include(router.urls)),

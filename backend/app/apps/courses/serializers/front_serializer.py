@@ -8,9 +8,10 @@ from accounts.users.models import User
 from accounts.students.serializers.admin_serializer import AdminProfileSerialiser
 
 from apps.courses.models import Course, Section, Category
+from apps.courses.documents.front import course_list_doc
 
 
-
+@course_list_doc()
 class CourseListSerialiser(serializers.ModelSerializer):
     teacher = serializers.CharField(source='teacher.full_name')
     category = serializers.CharField(source='category.title')    
