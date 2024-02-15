@@ -7,10 +7,12 @@ from accounts.users.models import User,UserType
 
 
 class AdminUserSeialiser(serializers.ModelSerializer):
+    email = serializers.EmailField(required=False)
+    phone_number = serializers.CharField(required=False)
     class Meta:
         model = User
         #fields = '__all__'
-        exclude = ('password', 'groups', 'user_permissions')
+        exclude = ('password', 'groups', 'user_permissions', 'user_type')
 
 
 class AdminUserCreateSeialiser(serializers.ModelSerializer):

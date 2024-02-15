@@ -17,4 +17,4 @@ class AdminProfileApiView(RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = StudentProfile.objects.all()
     serializer_class = AdminProfileSerialiser
     lookup_field = 'pk'
-    lookup_url_kwarg = 'pk'
+    lookup_url_kwarg = 'user_id'
