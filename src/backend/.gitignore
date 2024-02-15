@@ -2,8 +2,8 @@ settings.json
 # migrations/
 .DS_Store
 local-cdn/
-.env-dev
-.env-prod
+# .env-dev
+# .env-prod
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -108,13 +108,13 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# # .env
+# .venv
+# # env/
+# venv/
+# ENV/
+# env.bak/
+# venv.bak/
 
 # Spyder project settings
 .spyderproject
@@ -210,11 +210,11 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# .env
+# .env.development.local
+# .env.test.local
+# .env.production.local
+# .env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
