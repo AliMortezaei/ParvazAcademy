@@ -1,6 +1,4 @@
 
-from django.http import QueryDict
-from pkg_resources import require
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
