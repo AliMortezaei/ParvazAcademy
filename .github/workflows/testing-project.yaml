@@ -17,20 +17,20 @@ jobs:
       run:
         working-directory: ./backend/app/
     env:
-      DJANGO_SECRET_KEY: test-key-not-good-maybe-make-one-better
+      DJANGO_SECRET_KEY: test-key-django-project-workflow-testing
       POSTGRES_DB: parvaz
       POSTGRES_PASSWORD: parvaz2324
       POSTGRES_USER: parvaz
-      POSTGRES_HOST: postgres
+      POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
-
+      DB_IGNORE_SSL: "true"
     services:
       postgres:
         image: postgres:15
         env: 
           POSTGRES_DB: ${{ env.POSTGRES_DB}}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD}}
-          POSTGRES_USER: ${{ env.POSTGRES_DB}}
+          POSTGRES_USER: ${{ env.POSTGRES_USER}}
         ports:
           - 5432:5432
       redis:
