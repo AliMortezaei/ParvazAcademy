@@ -30,8 +30,7 @@ class AdminUserViewSet(ModelViewSet):
     queryset = User.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AdminUserFilter
-
-    #permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
 
     def  get_serializer_class(self):

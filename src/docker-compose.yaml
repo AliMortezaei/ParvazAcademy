@@ -25,10 +25,8 @@ services:
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - ./backend/app/.env
     networks:
       - main
     restart: on-failure
@@ -37,15 +35,15 @@ services:
     ports:
       - "5432:5432"
   
+
   redis:
     image: redis:latest
     container_name: redis
-    restart: always
+    restart: always 
     volumes:
         - redis_data:/data
-
     ports:
-      - "6379:6379"
+      - "6380:6379"
     networks:
       - main
  

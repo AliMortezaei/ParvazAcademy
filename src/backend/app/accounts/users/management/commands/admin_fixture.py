@@ -1,3 +1,4 @@
+import os
 from django.core.management.base import BaseCommand, CommandError
 
 from accounts.users.models import User, UserType
@@ -15,10 +16,10 @@ class Command(BaseCommand):
             user = User(user_type=admin_type)
         except Exception as exp:
             raise CommandError(exp)
-        user.email = "admin@email.com"
+        user.email = os.environ.get('DJANGO_SUPERUSER_EMAIL')
         user.full_name = "admin"
-        user.phone_number = "09123456789"
-        user.password = "admin2324"
+        user.phone_number = os.environ.get('DJANGO_SUPERUSER_PHONE_NUMBER')
+        user.set_password(os.environ.get('DJANGO_SUPERUSER_PASSWORD'))
         user.is_active = True
         user.is_staff = True
         user.is_superuser = True
