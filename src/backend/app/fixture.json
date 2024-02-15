@@ -1,0 +1,19 @@
+[
+  
+  {
+    "model": "users.usertype",
+    "pk": "student",
+    "fields": { "introduction": null }
+  },
+  {
+    "model": "users.usertype",
+    "pk": "teacher",
+    "fields": { "introduction": null }
+  },
+  {
+    "model": "users.usertype",
+    "pk": "admin",
+    "fields": { "introduction": null }
+  }
+   
+]

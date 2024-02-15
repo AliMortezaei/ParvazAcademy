@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from jalali_date import datetime2jalali
 
@@ -21,7 +21,7 @@ def create_profile(sender, instance, created, **kwargs):
                 TeacherProfile.objects.create(
                     user_id=instance.id, image=settings.DEFAULT_PROFILE
                 )
-
+   
 
 
 @receiver(post_save, sender=User)
