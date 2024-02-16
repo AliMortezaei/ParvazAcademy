@@ -19,6 +19,7 @@ jobs:
     env:
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRITY_KEY }}
       DJANGO_SETTINGS_MODULE: core.settings
+      OTP_KAVENEGAR_KEY: ${{ secrets.OTP_KAVENEGAR_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
@@ -40,6 +41,14 @@ jobs:
           - 5432:5432
       redis:
         image: redis:latest
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
           - 6379:6379
     strategy:
@@ -57,6 +66,11 @@ jobs:
           pip install poetry \
           && poetry config virtualenvs.create false \
           && poetry install --no-interaction --no-ansi 
+      - name: Run DB migrate
+        run: |
+          source .venv/bin/activate
+          python manage.py migrate
       - name: Run Test
         run: |
+          source .venv/bin/activate
           python manage.py test 
