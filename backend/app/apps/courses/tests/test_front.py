@@ -16,7 +16,7 @@ class CourseTestCase(APITestCase):
         self.category = Category.objects.create(title='learn programming language')
         teacher_type = UserType.objects.create(user_type='teacher')
         self.teacher = User.objects.create(
-            user_type=teacher_type, full_name='user teacher',email='user@teacher.com',image=settings.DEFAULT_PROFILE,
+            user_type=teacher_type, full_name='user teacher',email='user@teacher.com',
             is_active=True, is_staff=False, phone_number='09123456789', password='teacher2324'
         )
         self.refresh = RefreshToken.for_user(self.teacher)
