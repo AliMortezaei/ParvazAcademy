@@ -42,7 +42,7 @@ jobs:
           REDIS_HOST: localhost
           REDIS_PORT: 6379 
         ports:
-          - 6380:6379
+          - 6379:6379
     strategy:
       max-parallel: 4
       matrix:
@@ -63,4 +63,4 @@ jobs:
           AWS_STORAGE_BUCKET_NAME: ${{ env.AWS_STORAGE_BUCKET_NAME }}
         run: |
           echo AWS_STORAGE_BUCKET_NAME \ 
-          && python manage.py test
+          python manage.py test
