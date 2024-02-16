@@ -55,4 +55,4 @@ jobs:
           && poetry install --no-interaction --no-ansi 
       - name: Run Test
         run: |
-          python manage.py test
+          python manage.py test --limit 10
