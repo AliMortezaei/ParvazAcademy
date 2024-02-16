@@ -31,8 +31,8 @@ jobs:
       - name: Build and push web
         uses: docker/build-push-action@v4
         with:
-          context: ./backend/app/
-          file: ./backend/app/Dockerfile
+          context: ./backend/
+          file: ./backend/Dockerfile
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
