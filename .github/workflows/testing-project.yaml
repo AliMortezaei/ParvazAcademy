@@ -62,5 +62,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
           AWS_STORAGE_BUCKET_NAME: ${{ env.AWS_STORAGE_BUCKET_NAME }}
         run: |
-          echo AWS_STORAGE_BUCKET_NAME \ 
+          echo $AWS_STORAGE_BUCKET_NAME \ 
           python manage.py test
