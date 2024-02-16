@@ -1,0 +1,36 @@
+name: Build Docker Container and Push to Registery Docker hub
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tesing-project:
+    uses: AliMortezaei/ParvazAcavemy/.github/workflows/testing-project.yaml@main
+  build:
+    runs-on: ubuntu-latest
+    needs: [tesing-project]
+    env:
+      PROJECT_NAME: parvaz-academy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push web
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend/app/
+          file: ./backend/app/Dockerfile
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            mortezaei2/parvaz_academy:latest
+            mortezaei2/parvaz_academy:${{ github.sha }}-${{ github.run_id }}
