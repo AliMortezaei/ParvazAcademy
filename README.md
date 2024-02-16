@@ -1,6 +1,6 @@
 # ParvazAcademy
 ...
-##a platform for learning
+## a platform for learning
 #### with three different roles: student, teacher, admin
 # Specification: 
 - Teacher and admin can define and manage a course (teacher can only manage the course he createdr)
