@@ -39,7 +39,7 @@ jobs:
       redis:
         image: redis:latest
         ports:
-          - 6380:6379
+          - 6379:6379
     strategy:
       max-parallel: 4
       matrix:
@@ -55,4 +55,4 @@ jobs:
           && poetry install --no-interaction --no-ansi 
       - name: Run Test
         run: |
-          python manage.py test --limit 10
+          python manage.py test 
