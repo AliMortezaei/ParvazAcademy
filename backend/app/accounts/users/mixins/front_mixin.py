@@ -110,7 +110,7 @@ class LoginOtpUserMixin(UserAuthBaseMixin):
 
     def perform_save(self, data):
         phone_number = self.redis.add_to_redis(code=self.code, **data)
-       # tasks.send_otp_code.delay(phone_number, self.code, 'login')
+        tasks.send_otp_code.delay(phone_number, self.code, 'login')
         return True
 
 
