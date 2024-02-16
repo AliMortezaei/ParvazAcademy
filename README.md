@@ -13,9 +13,10 @@
 - using redis for storage data and message broker
 - using database postgresql
 - **using boto3 for arvancloud storage** #boto3
-- writing testing project
-- workflow github action for tesing project, build docker container added dockerhub ([repository](https://hub.docker.com/r/mortezaei2/parvaz_academy))
-- dockerize project(using docker compose)
+- **writing testing project** #testing
+- **writing documents project** #documents
+- **workflow github action** for tesing project, build docker container added dockerhub ([repository](https://hub.docker.com/r/mortezaei2/parvaz_academy))
+- **dockerize project(using docker compose)** 
 # Run Project 
 ```bash
 docker compose up -d --build
