@@ -9,12 +9,11 @@ on:
     branches: [main]
 
 jobs:
-  tesing:
-  - name: Tist Django Project Job
+  tesing-project:
     uses: AliMortezaei/ParvazAcavemy/.github/workflows/testing-project.yaml@main
   build:
     runs-on: ubuntu-latest
-    needs: [tesing]
+    needs: [tesing-project]
     env:
       PROJECT_NAME: parvaz-academy
     steps:
