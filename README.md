@@ -6,5 +6,8 @@
 - A student can join a course
 - Each course can have several sections
 - Anyone can see the courses
+- Teacher and student can manage their own profile
+- Authentication with phone number and email
+
 
 
