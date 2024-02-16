@@ -1,5 +1,4 @@
 # ParvazAcademy
-...
 ## a platform for learning
 #### with three different roles: student, teacher, admin
 # Specification: 
