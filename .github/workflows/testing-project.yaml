@@ -38,6 +38,9 @@ jobs:
           - 5432:5432
       redis:
         image: redis:latest
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379 
         ports:
           - 6380:6379
     strategy:
