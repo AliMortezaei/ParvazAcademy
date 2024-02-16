@@ -30,6 +30,7 @@ jobs:
           context: .
           file: ./backend/app/Dockerfile
           push: true
+          driver: local
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
