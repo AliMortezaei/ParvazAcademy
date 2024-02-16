@@ -1,7 +1,7 @@
-# :card_file_box: ParvazAcademy
+# ParvazAcademy
 ## :iphone: a platform for learning
 #### with three different roles: student, teacher, admin
-# Specification: 
+# :monocle_face: Specification: 
 - Teacher and admin can define and manage a course (teacher can only manage the course he createdr)
 - A student can join a course
 - Each course can have several sections
