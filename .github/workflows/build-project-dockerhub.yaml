@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -27,10 +31,9 @@ jobs:
       - name: Build and push web
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./backend/app/
           file: ./backend/app/Dockerfile
           push: true
-          driver: local
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
