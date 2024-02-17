@@ -13,7 +13,7 @@
 - **using library celery for asynchronous tasks**
 - **using redis for storage data and message broker**
 - **using database postgresql**
-- **using Amazon S3 for Media storage **
+- **using Amazon S3 for Media storage**
 - **using JWT(JSON Web Token) for authentication**
 - **using Gunicorn to run wsgi server**
 - **writing testing project**
