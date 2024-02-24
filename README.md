@@ -11,7 +11,7 @@
   # Tools and Features
 - **dependency management poetry -v 1.7**
 - **using library celery for asynchronous tasks**
-- **using redis for storage data and message broker**
+- **using redis for storage data(authorized and authenticate jwt storage) and message broker**
 - **using database postgresql**
 - **using Amazon S3 for Media storage**
 - **using JWT(JSON Web Token) for authentication**
